@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate4 = () => {
     const { themeData } = usePersonalization();
+    const [isConfirmed, setIsConfirmed] = useState(false);
     const container = useRef(null);
     const { scrollYProgress } = useScroll({ target: container, offset: ["start start", "end end"] });
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
@@ -81,8 +82,12 @@ const DemoTemplate4 = () => {
                     <h2 style={{ fontFamily: "'Cinzel Decorative', serif", fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '2rem' }}>ENTER THE GUESTLIST</h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '400px', margin: '0 auto' }}>
                         <input type="text" placeholder="GUEST NAME" style={{ backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', padding: '1rem', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '2px', outline: 'none' }} />
-                        <motion.button whileHover={{ backgroundColor: '#fff', color: '#000' }} style={{ backgroundColor: '#ff4000', color: '#fff', border: 'none', padding: '1.2rem', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, letterSpacing: '4px', cursor: 'pointer', transition: 'all 0.3s ease' }}>
-                            CONFIRM IDENTITY
+                        <motion.button 
+                            onClick={() => setIsConfirmed(true)}
+                            whileHover={!isConfirmed ? { backgroundColor: '#fff', color: '#000' } : {}} 
+                            style={{ backgroundColor: isConfirmed ? '#00ff00' : '#ff4000', color: isConfirmed ? '#000' : '#fff', border: 'none', padding: '1.2rem', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, letterSpacing: '4px', cursor: isConfirmed ? 'default' : 'pointer', transition: 'all 0.3s ease' }}
+                        >
+                            {isConfirmed ? "IDENTITY CONFIRMED / ACCESS GRANTED" : "CONFIRM IDENTITY"}
                         </motion.button>
                     </div>
                 </motion.div>

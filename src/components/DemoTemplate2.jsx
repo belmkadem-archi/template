@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate2 = () => {
     const { themeData } = usePersonalization();
+    const [isRsvped, setIsRsvped] = useState(false);
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: containerRef });
 
@@ -162,20 +163,21 @@ const DemoTemplate2 = () => {
                     <p style={{ fontFamily: theme.sans, letterSpacing: '4px', fontWeight: 200, marginBottom: '5rem', opacity: 0.7 }}>PLEASE RESPOND BY {themeData.dateStr}</p>
 
                     <motion.button
-                        whileHover={{ scale: 1.05, backgroundColor: theme.gold, color: theme.dark }}
-                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setIsRsvped(true)}
+                        whileHover={!isRsvped ? { scale: 1.05, backgroundColor: theme.gold, color: theme.dark } : {}}
+                        whileTap={!isRsvped ? { scale: 0.95 } : {}}
                         style={{
-                            background: 'transparent',
+                            background: isRsvped ? theme.gold : 'transparent',
                             border: `1px solid ${theme.gold}`,
-                            color: theme.gold,
+                            color: isRsvped ? theme.dark : theme.gold,
                             padding: '1.5rem 5rem',
                             fontFamily: theme.serif,
                             fontSize: '1.8rem',
-                            cursor: 'pointer',
+                            cursor: isRsvped ? 'default' : 'pointer',
                             transition: 'background-color 0.4s ease, color 0.4s ease'
                         }}
                     >
-                        Accept with Pleasure
+                        {isRsvped ? "RSVP Confirmed ✓" : "Accept with Pleasure"}
                     </motion.button>
                 </motion.div>
             </section>

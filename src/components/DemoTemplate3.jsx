@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate3 = () => {
     const { themeData } = usePersonalization();
+    const [isConfirmed, setIsConfirmed] = useState(false);
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: targetRef });
 
@@ -77,11 +78,12 @@ const DemoTemplate3 = () => {
                                 <h2 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: '12rem', marginBottom: '1rem', fontStyle: 'italic' }}>RSVP</h2>
                                 <p style={{ fontFamily: "'Jost', sans-serif", letterSpacing: '4px', marginBottom: '4rem', opacity: 0.7 }}>AWAITING YOUR RESPONSE</p>
                                 <motion.button
+                                    onClick={() => setIsConfirmed(true)}
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    style={{ fontFamily: "'Jost', sans-serif", background: '#e5e3db', color: '#111', border: 'none', padding: '1.2rem 4rem', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '4px', cursor: 'pointer', fontWeight: 500 }}
+                                    style={{ fontFamily: "'Jost', sans-serif", background: isConfirmed ? '#4CAF50' : '#e5e3db', color: isConfirmed ? '#fff' : '#111', border: 'none', padding: '1.2rem 4rem', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '4px', cursor: isConfirmed ? 'default' : 'pointer', fontWeight: 500, transition: 'background-color 0.3s' }}
                                 >
-                                    Confirm
+                                    {isConfirmed ? "Confirmed ✓" : "Confirm"}
                                 </motion.button>
                             </div>
                         </div>

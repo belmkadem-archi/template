@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate7 = () => {
     const { themeData } = usePersonalization();
+    const [isSent, setIsSent] = useState(false);
     const { scrollYProgress } = useScroll();
     const leftScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
@@ -99,8 +100,12 @@ const DemoTemplate7 = () => {
                         <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }} className="rsvp-title">R.S.V.P</motion.h2>
                         <form style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '100%' }}>
                             <input type="text" placeholder="Name(s)" style={{ border: 'none', borderBottom: `1px solid ${theme.text}`, background: 'transparent', padding: '1rem 0', fontFamily: theme.sans, fontSize: '1.2rem', outline: 'none', width: '100%' }} />
-                            <motion.button whileHover={{ backgroundColor: theme.accent, color: '#fff' }} style={{ background: theme.text, color: theme.bg, border: 'none', padding: '1.5rem', fontFamily: theme.sans, letterSpacing: '4px', textTransform: 'uppercase', cursor: 'pointer', marginTop: '1rem', transition: 'background 0.3s', width: '100%' }}>
-                                Send Response
+                            <motion.button 
+                                onClick={(e) => { e.preventDefault(); setIsSent(true); }}
+                                whileHover={!isSent ? { backgroundColor: theme.accent, color: '#fff' } : {}} 
+                                style={{ background: isSent ? theme.accent : theme.text, color: isSent ? '#fff' : theme.bg, border: 'none', padding: '1.5rem', fontFamily: theme.sans, letterSpacing: '4px', textTransform: 'uppercase', cursor: isSent ? 'default' : 'pointer', marginTop: '1rem', transition: 'background 0.3s', width: '100%' }}
+                            >
+                                {isSent ? 'Sent ✓' : 'Send RSVPs'}
                             </motion.button>
                         </form>
                     </section>

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { MapPin, Calendar, Clock, ChevronDown } from 'lucide-react';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const PremiumTemplate = () => {
     const { themeData } = usePersonalization();
+    const [isSent, setIsSent] = useState(false);
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 1000], [0, 250]);
     const opacity1 = useTransform(scrollY, [0, 400], [1, 0]);
@@ -188,9 +189,27 @@ const PremiumTemplate = () => {
                             </label>
                         </div>
 
-                        <button style={{ background: theme.accent, color: '#fff', fontFamily: theme.fontSans, letterSpacing: '3px', textTransform: 'uppercase', padding: '1.2rem', borderRadius: '4px', marginTop: '3rem', border: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500 }}>
-                            Send Reply
-                        </button>
+                        <motion.button 
+                            onClick={(e) => { e.preventDefault(); setIsSent(true); }}
+                            whileTap={!isSent ? { scale: 0.95 } : {}}
+                            style={{ 
+                                background: isSent ? '#4CAF50' : theme.accent, 
+                                color: '#fff', 
+                                fontFamily: theme.fontSans, 
+                                letterSpacing: '3px', 
+                                textTransform: 'uppercase', 
+                                padding: '1.2rem', 
+                                borderRadius: '4px', 
+                                marginTop: '3rem', 
+                                border: 'none', 
+                                cursor: isSent ? 'default' : 'pointer', 
+                                fontSize: '0.9rem', 
+                                fontWeight: 500,
+                                transition: 'background-color 0.4s ease'
+                            }}
+                        >
+                            {isSent ? "Reply Sent ✓" : "Send Reply"}
+                        </motion.button>
                     </div>
                 </motion.div>
             </section>

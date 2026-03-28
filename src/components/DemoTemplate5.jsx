@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate5 = () => {
     const { themeData } = usePersonalization();
+    const [isEntered, setIsEntered] = useState(false);
     useEffect(() => {
         const link = document.createElement('link');
         link.href = 'https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap';
@@ -51,7 +52,12 @@ const DemoTemplate5 = () => {
                 <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.5, delay: 0.2 }} style={{ flex: '1 1 400px', textAlign: 'left', padding: '4rem', background: 'rgba(255,255,255,0.4)', borderRadius: '40px', backdropFilter: 'blur(20px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <h2 style={{ fontFamily: "'Italiana', serif", fontSize: '3rem', marginBottom: '2rem' }}>Guest Access</h2>
                     <input type="text" placeholder="Your Digital Identifier (Name)" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid currentColor', padding: '1rem 0', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '1.2rem', marginBottom: '2rem', outline: 'none' }} />
-                    <button style={{ padding: '1.5rem 0', borderRadius: '100px', border: 'none', background: '#111', color: '#fff', fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '4px', textTransform: 'uppercase', cursor: 'pointer', transition: 'transform 0.3s' }}>Enter The Portal</button>
+                    <button 
+                        onClick={() => setIsEntered(true)}
+                        style={{ padding: '1.5rem 0', borderRadius: '100px', border: 'none', background: isEntered ? '#4CAF50' : '#111', color: '#fff', fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '4px', textTransform: 'uppercase', cursor: isEntered ? 'default' : 'pointer', transition: 'all 0.3s' }}
+                    >
+                        {isEntered ? 'Access Granted' : 'Enter The Portal'}
+                    </button>
                 </motion.div>
             </div>
         </div>

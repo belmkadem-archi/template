@@ -5,6 +5,7 @@ import { usePersonalization } from '../context/PersonalizationContext';
 const DemoTemplate9 = () => {
     const { themeData } = usePersonalization();
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isEntered, setIsEntered] = useState(false);
 
     const baseImages = [themeData.imgHero, themeData.imgDetail1, themeData.imgDetail2, themeData.imgDetail3];
     // Expand to force an infinite scrolling gallery grid
@@ -63,7 +64,12 @@ const DemoTemplate9 = () => {
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1, duration: 2, ease: "easeOut" }} style={{ background: 'rgba(10,10,10,0.8)', padding: '4rem 6rem', backdropFilter: 'blur(15px)', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center', pointerEvents: 'auto', boxShadow: '0 30px 60px rgba(0,0,0,0.5)' }}>
                     <h1 style={{ fontFamily: "'Space Mono', monospace", fontSize: 'clamp(3rem, 6vw, 6rem)', letterSpacing: '-2px', margin: 0, textTransform: 'uppercase' }}>{themeData.partner1} & {themeData.partner2}</h1>
                     <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '1rem', letterSpacing: '6px', color: '#888', marginTop: '1.5rem' }}>{themeData.dateFull} • {themeData.venueLocation}</p>
-                    <button style={{ marginTop: '4rem', padding: '1.5rem 4rem', background: '#fff', color: '#000', border: 'none', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '4px', cursor: 'pointer', transition: 'transform 0.2s', fontWeight: 'bold' }}>ENTER EXHIBITION</button>
+                    <button 
+                        onClick={() => setIsEntered(true)}
+                        style={{ marginTop: '4rem', padding: '1.5rem 4rem', background: isEntered ? '#4CAF50' : '#fff', color: isEntered ? '#fff' : '#000', border: 'none', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '4px', cursor: isEntered ? 'default' : 'pointer', transition: 'all 0.2s', fontWeight: 'bold' }}
+                    >
+                        {isEntered ? 'ACCESS GRANTED' : 'ENTER EXHIBITION'}
+                    </button>
                 </motion.div>
             </div>
 

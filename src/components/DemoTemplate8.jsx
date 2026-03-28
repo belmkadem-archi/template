@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
 
@@ -17,6 +17,7 @@ const KineticTextRow = ({ text, direction = 1, speed = 1 }) => {
 
 const DemoTemplate8 = () => {
     const { themeData } = usePersonalization();
+    const [isRsvped, setIsRsvped] = useState(false);
     const { scrollYProgress } = useScroll();
     const circleSize = useTransform(scrollYProgress, [0, 0.5], ["0vw", "40vw"]);
 
@@ -69,8 +70,11 @@ const DemoTemplate8 = () => {
                     </div>
                 </div>
 
-                <button style={{ marginTop: '6rem', width: '100%', maxWidth: '800px', padding: '2rem', backgroundColor: '#fff', color: '#111', border: 'none', fontFamily: "'Anton', sans-serif", fontSize: '4rem', textTransform: 'uppercase', cursor: 'pointer' }}>
-                    I WILL BE THERE
+                <button 
+                    onClick={() => setIsRsvped(true)}
+                    style={{ marginTop: '6rem', width: '100%', maxWidth: '800px', padding: '2rem', backgroundColor: isRsvped ? '#4CAF50' : '#fff', color: isRsvped ? '#fff' : '#111', border: 'none', fontFamily: "'Anton', sans-serif", fontSize: '4rem', textTransform: 'uppercase', cursor: isRsvped ? 'default' : 'pointer', transition: 'background-color 0.3s, color 0.3s' }}
+                >
+                    {isRsvped ? "CONFIRMED ✓" : "I WILL BE THERE"}
                 </button>
             </section>
 
