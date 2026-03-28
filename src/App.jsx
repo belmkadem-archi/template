@@ -16,39 +16,42 @@ import DemoTemplate6 from './components/DemoTemplate6';
 import DemoTemplate7 from './components/DemoTemplate7';
 import DemoTemplate8 from './components/DemoTemplate8';
 import DemoTemplate9 from './components/DemoTemplate9';
+import { PersonalizationProvider } from './context/PersonalizationContext';
+import PersonalizerSidebar from './components/PersonalizerSidebar';
 
 function App() {
-  const isDemo = window.location.pathname === '/demo';
-  const isDemo2 = window.location.pathname === '/demo2';
-  const isDemo3 = window.location.pathname === '/demo3';
-  const isDemo4 = window.location.pathname === '/demo4';
-  const isDemo5 = window.location.pathname === '/demo5';
-  const isDemo6 = window.location.pathname === '/demo6';
-  const isDemo7 = window.location.pathname === '/demo7';
-  const isDemo8 = window.location.pathname === '/demo8';
-  const isDemo9 = window.location.pathname === '/demo9';
+  const isDemoRoute = window.location.pathname.startsWith('/demo');
+  const AppContent = () => {
+    if (window.location.pathname === '/demo') return <PremiumTemplate />;
+    if (window.location.pathname === '/demo2') return <DemoTemplate2 />;
+    if (window.location.pathname === '/demo3') return <DemoTemplate3 />;
+    if (window.location.pathname === '/demo4') return <DemoTemplate4 />;
+    if (window.location.pathname === '/demo5') return <DemoTemplate5 />;
+    if (window.location.pathname === '/demo6') return <DemoTemplate6 />;
+    if (window.location.pathname === '/demo7') return <DemoTemplate7 />;
+    if (window.location.pathname === '/demo8') return <DemoTemplate8 />;
+    if (window.location.pathname === '/demo9') return <DemoTemplate9 />;
 
-  if (isDemo) return <PremiumTemplate />;
-  if (isDemo2) return <DemoTemplate2 />;
-  if (isDemo3) return <DemoTemplate3 />;
-  if (isDemo4) return <DemoTemplate4 />;
-  if (isDemo5) return <DemoTemplate5 />;
-  if (isDemo6) return <DemoTemplate6 />;
-  if (isDemo7) return <DemoTemplate7 />;
-  if (isDemo8) return <DemoTemplate8 />;
-  if (isDemo9) return <DemoTemplate9 />;
+    return (
+      <>
+        <Navbar />
+        <HeroSection />
+        <FeaturesSection />
+        <TemplatesGallery />
+        <ProcessSection />
+        <PricingSection />
+        <FAQAccordion />
+        <Footer />
+      </>
+
+    );
+  };
 
   return (
-    <>
-      <Navbar />
-      <HeroSection />
-      <FeaturesSection />
-      <TemplatesGallery />
-      <ProcessSection />
-      <PricingSection />
-      <FAQAccordion />
-      <Footer />
-    </>
+    <PersonalizationProvider>
+      {isDemoRoute && <PersonalizerSidebar />}
+      <AppContent />
+    </PersonalizationProvider>
   );
 }
 

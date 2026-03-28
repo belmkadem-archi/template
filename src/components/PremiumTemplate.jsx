@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { MapPin, Calendar, Clock, ChevronDown } from 'lucide-react';
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const PremiumTemplate = () => {
+    const { themeData } = usePersonalization();
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 1000], [0, 250]);
     const opacity1 = useTransform(scrollY, [0, 400], [1, 0]);
@@ -51,11 +53,11 @@ const PremiumTemplate = () => {
                         transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
                         style={{ fontFamily: theme.fontScript, fontSize: 'clamp(5rem, 15vw, 12rem)', lineHeight: 1, margin: '1rem 0', color: theme.text, textShadow: '0 20px 40px rgba(0,0,0,0.05)' }}
                     >
-                        Maria <span style={{ fontSize: '0.6em', color: theme.accent }}>&</span> Adrien
+                        {themeData.partner1} <span style={{ fontSize: '0.6em', color: theme.accent }}>&</span> {themeData.partner2}
                     </motion.h1>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1.2 }}>
-                        <div style={{ fontSize: '1.6rem', letterSpacing: '3px' }}>May 24, 2026</div>
-                        <div style={{ fontFamily: theme.fontSans, fontSize: '0.9rem', marginTop: '1rem', letterSpacing: '2px', opacity: 0.6, textTransform: 'uppercase' }}>Prague, Czech Republic</div>
+                        <div style={{ fontSize: '1.6rem', letterSpacing: '3px', textTransform: 'uppercase' }}>{themeData.dateFull}</div>
+                        <div style={{ fontFamily: theme.fontSans, fontSize: '0.9rem', marginTop: '1rem', letterSpacing: '2px', opacity: 0.6, textTransform: 'uppercase' }}>{themeData.venueLocation}</div>
                     </motion.div>
                 </div>
 

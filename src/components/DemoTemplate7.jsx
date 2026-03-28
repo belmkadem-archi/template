@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
-const imgHero = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop";
-const imgDetail = "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop";
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate7 = () => {
+    const { themeData } = usePersonalization();
     const { scrollYProgress } = useScroll();
     const leftScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
@@ -53,11 +52,11 @@ const DemoTemplate7 = () => {
                 {/* Fixed Left Panel (Becomes scrolling top banner on mobile) */}
                 <div className="split-left">
                     <motion.div style={{ width: '100%', height: '100%', scale: leftScale }}>
-                        <img src={imgHero} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Fine Art Romance" />
+                        <img src={themeData.imgHero} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Fine Art Romance" />
                     </motion.div>
                     {/* Minimal corner branding */}
                     <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', color: '#fff', fontFamily: theme.sans, fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
-                        Elena & Julian
+                        {themeData.partner1} & {themeData.partner2}
                     </div>
                 </div>
 
@@ -66,10 +65,10 @@ const DemoTemplate7 = () => {
 
                     <section className="hero-section">
                         <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, ease: "easeOut" }}>
-                            <h1 className="hero-title">Elena <br /><span style={{ fontStyle: 'italic', fontWeight: 400, color: theme.accent }}>&</span> Julian</h1>
+                            <h1 className="hero-title">{themeData.partner1} <br /><span style={{ fontStyle: 'italic', fontWeight: 400, color: theme.accent }}>&</span> {themeData.partner2}</h1>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginTop: '4rem' }}>
                                 <div style={{ width: '50px', height: '1px', backgroundColor: theme.text }}></div>
-                                <p style={{ fontFamily: theme.sans, textTransform: 'uppercase', letterSpacing: '4px', fontSize: '0.9rem', fontWeight: 300 }}>June 10 • Paris</p>
+                                <p style={{ fontFamily: theme.sans, textTransform: 'uppercase', letterSpacing: '4px', fontSize: '0.9rem', fontWeight: 300 }}>{themeData.dateStr} • {themeData.venueLocation}</p>
                             </div>
                         </motion.div>
                     </section>
@@ -83,18 +82,18 @@ const DemoTemplate7 = () => {
                         <div style={{ marginTop: '5rem', paddingLeft: '2rem', borderLeft: `1px solid ${theme.text}` }}>
                             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} style={{ marginBottom: '3rem' }}>
                                 <h3 style={{ fontFamily: theme.sans, fontSize: '0.8rem', letterSpacing: '4px', textTransform: 'uppercase', color: theme.accent, marginBottom: '0.5rem' }}>L'Événement</h3>
-                                <p style={{ fontFamily: theme.serif, fontSize: '1.8rem' }}>15:00 • Chateau de Chantilly</p>
+                                <p style={{ fontFamily: theme.serif, fontSize: '1.8rem' }}>15:00 • {themeData.venueTitle}</p>
                             </motion.div>
                             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}>
                                 <h3 style={{ fontFamily: theme.sans, fontSize: '0.8rem', letterSpacing: '4px', textTransform: 'uppercase', color: theme.accent, marginBottom: '0.5rem' }}>Le Dîner</h3>
-                                <p style={{ fontFamily: theme.serif, fontSize: '1.8rem' }}>19:00 • The Grand Hall</p>
+                                <p style={{ fontFamily: theme.serif, fontSize: '1.8rem' }}>19:00 • {themeData.venueTitle}</p>
                             </motion.div>
                         </div>
                     </section>
 
                     <section className="split-section" style={{ position: 'relative' }}>
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1 }} style={{ width: '100%', height: '40vh', background: '#ccc', marginBottom: '4rem' }}>
-                            <img src={imgDetail} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Detail view" />
+                            <img src={themeData.imgDetail1} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Detail view" />
                         </motion.div>
 
                         <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }} className="rsvp-title">R.S.V.P</motion.h2>

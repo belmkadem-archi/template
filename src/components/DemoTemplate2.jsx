@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-
-// High-quality placeholder image URLs
-const imgHero = "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop";
-const imgRings = "https://images.unsplash.com/photo-1544078755-9a849f50e82c?q=80&w=1000&auto=format&fit=crop";
-const imgVenue = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop";
-const imgHoldingHands = "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop";
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate2 = () => {
+    const { themeData } = usePersonalization();
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: containerRef });
 
@@ -59,7 +55,7 @@ const DemoTemplate2 = () => {
                     style={{ width: '100%', height: '110%', position: 'absolute', top: '-5%', y: heroY, scale: heroScale }}
                 >
                     <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.35)', zIndex: 1 }} />
-                    <img src={imgHero} alt="Couple" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={themeData.imgHero} alt="Hero Couple" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </motion.div>
 
                 <motion.div
@@ -72,9 +68,9 @@ const DemoTemplate2 = () => {
                         initial="hidden" animate="visible" variants={staggerContainer}
                         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                     >
-                        <motion.h1 variants={textVariants} style={{ fontFamily: theme.script, fontSize: 'clamp(6rem, 15vw, 15rem)', lineHeight: 0.8, color: '#fff', textShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>Sophia</motion.h1>
+                        <motion.h1 variants={textVariants} style={{ fontFamily: theme.script, fontSize: 'clamp(6rem, 15vw, 15rem)', lineHeight: 0.8, color: '#fff', textShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>{themeData.partner1}</motion.h1>
                         <motion.span variants={textVariants} style={{ fontFamily: theme.serif, fontSize: 'clamp(2rem, 4vw, 4rem)', color: theme.gold, margin: '1rem 0', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>&</motion.span>
-                        <motion.h1 variants={textVariants} style={{ fontFamily: theme.script, fontSize: 'clamp(6rem, 15vw, 15rem)', lineHeight: 0.8, color: '#fff', textShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>Alexander</motion.h1>
+                        <motion.h1 variants={textVariants} style={{ fontFamily: theme.script, fontSize: 'clamp(6rem, 15vw, 15rem)', lineHeight: 0.8, color: '#fff', textShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>{themeData.partner2}</motion.h1>
                     </motion.div>
                 </motion.div>
             </section>
@@ -88,7 +84,7 @@ const DemoTemplate2 = () => {
                         initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1 }}
                     >
                         <div style={{ position: 'relative', padding: '1rem', background: '#fff', boxShadow: '0 25px 60px rgba(0,0,0,0.1)', borderRadius: '4px' }}>
-                            <img src={imgHoldingHands} alt="Holding Hands" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '2px' }} />
+                            <img src={themeData.imgDetail3} alt="Love Story Image" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '2px' }} />
                         </div>
                     </motion.div>
 
@@ -111,7 +107,7 @@ const DemoTemplate2 = () => {
                     style={{ position: 'absolute', inset: 0, y: useTransform(smoothProgress, [0.3, 0.7], [-150, 150]) }}
                 >
                     <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(26,26,26,0.5)', zIndex: 1 }} />
-                    <img src={imgVenue} alt="Venue" style={{ width: '100%', height: '130%', objectFit: 'cover' }} />
+                    <img src={themeData.imgDetail2} alt="Venue" style={{ width: '100%', height: '130%', objectFit: 'cover' }} />
                 </motion.div>
 
                 <motion.div
@@ -119,8 +115,8 @@ const DemoTemplate2 = () => {
                     style={{ position: 'relative', zIndex: 2, textAlign: 'center', color: '#fff', border: `1px solid rgba(197, 168, 128, 0.5)`, padding: '5rem', backdropFilter: 'blur(15px)', backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: '2px' }}
                 >
                     <h3 style={{ fontFamily: theme.script, fontSize: '6rem', marginBottom: '1rem', color: theme.gold }}>The Venue</h3>
-                    <p style={{ fontFamily: theme.serif, fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '2px' }}>Villa Balbiano</p>
-                    <p style={{ fontFamily: theme.sans, fontSize: '1.1rem', letterSpacing: '8px', textTransform: 'uppercase', opacity: 0.8 }}>Lake Como, Italy</p>
+                    <p style={{ fontFamily: theme.serif, fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '2px' }}>{themeData.venueTitle}</p>
+                    <p style={{ fontFamily: theme.sans, fontSize: '1.1rem', letterSpacing: '8px', textTransform: 'uppercase', opacity: 0.8 }}>{themeData.venueLocation}</p>
                 </motion.div>
             </section>
 
@@ -151,7 +147,7 @@ const DemoTemplate2 = () => {
                             <motion.img
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.8 }}
-                                src={imgRings} alt="Rings" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                src={themeData.imgDetail1} alt="Styling Details" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                         </div>
                     </motion.div>
@@ -163,7 +159,7 @@ const DemoTemplate2 = () => {
             <section style={{ padding: '10rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: theme.dark, color: theme.bg }}>
                 <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2 }} style={{ textAlign: 'center' }}>
                     <h2 style={{ fontFamily: theme.script, fontSize: 'clamp(6rem, 15vw, 10rem)', color: theme.gold, marginBottom: '2rem', lineHeight: 0.8 }}>RSVP</h2>
-                    <p style={{ fontFamily: theme.sans, letterSpacing: '4px', fontWeight: 200, marginBottom: '5rem', opacity: 0.7 }}>PLEASE RESPOND BY AUGUST 15TH</p>
+                    <p style={{ fontFamily: theme.sans, letterSpacing: '4px', fontWeight: 200, marginBottom: '5rem', opacity: 0.7 }}>PLEASE RESPOND BY {themeData.dateStr}</p>
 
                     <motion.button
                         whileHover={{ scale: 1.05, backgroundColor: theme.gold, color: theme.dark }}

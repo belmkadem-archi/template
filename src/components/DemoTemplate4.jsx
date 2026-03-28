@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
-const images = [
-    "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2000&auto=format&fit=crop", // dark moody sparklers/lights
-    "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop", // dark concert/event lights
-];
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate4 = () => {
+    const { themeData } = usePersonalization();
     const container = useRef(null);
     const { scrollYProgress } = useScroll({ target: container, offset: ["start start", "end end"] });
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
@@ -25,18 +22,18 @@ const DemoTemplate4 = () => {
             {/* Dynamic Glowing Hero */}
             <section style={{ height: '100vh', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <motion.div style={{ position: 'absolute', inset: 0, opacity: 0.4, scale }}>
-                    <img src={images[0]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Background" />
+                    <img src={themeData.imgHero} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Background" />
                 </motion.div>
                 {/* Glowing Orbs */}
                 <div style={{ position: 'absolute', top: '10%', left: '15%', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(255, 60, 0, 0.25) 0%, transparent 70%)', filter: 'blur(80px)', mixBlendMode: 'screen', animation: 'pulse 5s infinite alternate' }} />
                 <div style={{ position: 'absolute', bottom: '0%', right: '10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(60, 0, 255, 0.2) 0%, transparent 70%)', filter: 'blur(100px)', mixBlendMode: 'screen', animation: 'pulse 8s infinite alternate-reverse' }} />
 
                 <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', width: '100%', padding: '0 2rem' }}>
-                    <motion.h1 initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, ease: 'easeOut' }} style={{ fontFamily: "'Cinzel Decorative', serif", fontSize: 'clamp(3.5rem, 10vw, 8rem)', lineHeight: 1.1, textShadow: '0 0 50px rgba(255,255,255,0.3)', margin: 0 }}>
-                        SOPHIA <span style={{ color: '#ff4000', fontSize: '0.8em', margin: '0 1rem' }}>&</span> ALEX
+                    <motion.h1 initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, ease: 'easeOut' }} style={{ fontFamily: "'Cinzel Decorative', serif", fontSize: 'clamp(3.5rem, 10vw, 8rem)', lineHeight: 1.1, textShadow: '0 0 50px rgba(255,255,255,0.3)', margin: 0, textTransform: 'uppercase' }}>
+                        {themeData.partner1} <span style={{ color: '#ff4000', fontSize: '0.8em', margin: '0 1rem' }}>&</span> {themeData.partner2}
                     </motion.h1>
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} style={{ fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '0.5em', textTransform: 'uppercase', fontSize: '0.9rem', marginTop: '2rem', color: 'rgba(255,255,255,0.6)' }}>
-                        OCTOBER 24, 2026 • NEW YORK CITY
+                        {themeData.dateFull} • {themeData.venueLocation}
                     </motion.p>
                 </div>
 
@@ -78,7 +75,7 @@ const DemoTemplate4 = () => {
             {/* Brutalist RSVP */}
             <section style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '6rem 2rem', position: 'relative', backgroundColor: '#000' }}>
                 <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }} style={{ position: 'absolute', inset: 0 }}>
-                    <img src={images[1]} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, filter: 'grayscale(100%)' }} alt="Crowd" />
+                    <img src={themeData.imgDetail1} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, filter: 'grayscale(100%)' }} alt="Crowd" />
                 </motion.div>
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} style={{ position: 'relative', zIndex: 1, textAlign: 'center', backgroundColor: 'rgba(0,0,0,0.8)', padding: '5rem 3rem', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <h2 style={{ fontFamily: "'Cinzel Decorative', serif", fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '2rem' }}>ENTER THE GUESTLIST</h2>

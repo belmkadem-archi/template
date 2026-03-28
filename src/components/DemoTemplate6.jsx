@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-const images = [
-    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop", // couple
-    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=800&auto=format&fit=crop", // hands
-    "https://images.unsplash.com/photo-1544078755-9a849f50e82c?q=80&w=800&auto=format&fit=crop", // rings
-];
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const tapeBlock = { position: 'absolute', width: '120px', height: '30px', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(4px)', top: '-15px', left: '50%', transform: 'translateX(-50%) rotate(-4deg)', zIndex: 5, boxShadow: '0 2px 5px rgba(0,0,0,0.1)' };
 
@@ -24,6 +19,7 @@ const Polaroid = ({ src, rotate, x, y, delay }) => (
 );
 
 const DemoTemplate6 = () => {
+    const { themeData } = usePersonalization();
     useEffect(() => {
         const link = document.createElement('link');
         link.href = 'https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Special+Elite&display=swap';
@@ -38,7 +34,7 @@ const DemoTemplate6 = () => {
             {/* Title */}
             <div style={{ position: 'absolute', top: '10vh', left: '10vw', zIndex: 2 }}>
                 <motion.h1 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, type: "spring" }} style={{ fontFamily: "'Caveat', cursive", fontSize: 'clamp(6rem, 15vw, 12rem)', color: '#2a2a2a', transform: 'rotate(-5deg)', margin: 0 }}>
-                    Chloe & Sam
+                    {themeData.partner1} & {themeData.partner2}
                 </motion.h1>
                 <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ fontFamily: "'Special Elite', cursive", fontSize: '2rem', color: '#555', marginLeft: '4rem', marginTop: '-2rem' }}>
                     are finally tying the knot!
@@ -46,9 +42,9 @@ const DemoTemplate6 = () => {
             </div>
 
             {/* Scattered Polaroids - Shifted far right to avoid text overlapping */}
-            <Polaroid src={images[0]} rotate={-8} x="65vw" y="5vh" delay={0.2} />
-            <Polaroid src={images[1]} rotate={12} x="55vw" y="45vh" delay={0.4} />
-            <Polaroid src={images[2]} rotate={-4} x="70vw" y="80vh" delay={0.6} />
+            <Polaroid src={themeData.imgHero} rotate={-8} x="65vw" y="5vh" delay={0.2} />
+            <Polaroid src={themeData.imgDetail3} rotate={12} x="55vw" y="45vh" delay={0.4} />
+            <Polaroid src={themeData.imgDetail1} rotate={-4} x="70vw" y="80vh" delay={0.6} />
 
             {/* Hand-written Note */}
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.8, duration: 1 }} style={{ position: 'absolute', top: '110vh', left: '10vw', maxWidth: '500px', background: 'rgba(255,255,255,0.7)', padding: '3rem', borderRadius: '4px', transform: 'rotate(2deg)', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
@@ -56,8 +52,8 @@ const DemoTemplate6 = () => {
                 <h2 style={{ fontFamily: "'Caveat', cursive", fontSize: '5rem', color: '#2a2a2a', marginBottom: '1rem', lineHeight: 0.8 }}>The Details</h2>
                 <p style={{ fontFamily: "'Special Elite', cursive", fontSize: '1.4rem', lineHeight: 2, color: '#333' }}>
                     We can't wait to see you there.<br /><br />
-                    <span style={{ fontWeight: 'bold' }}>Date:</span> August 14th, 2026<br />
-                    <span style={{ fontWeight: 'bold' }}>Venue:</span> The Old Barn, Willow Creek.<br />
+                    <span style={{ fontWeight: 'bold' }}>Date:</span> {themeData.dateFull}<br />
+                    <span style={{ fontWeight: 'bold' }}>Venue:</span> {themeData.venueTitle}, {themeData.venueLocation}.<br />
                     <span style={{ fontWeight: 'bold' }}>Dress Code:</span> Come as you are, ready to dance!
                 </p>
                 <div style={{ marginTop: '3rem', display: 'flex', gap: '2rem', flexDirection: 'column' }}>

@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
-const images = [
-    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop"
-];
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const KineticTextRow = ({ text, direction = 1, speed = 1 }) => {
     const { scrollYProgress } = useScroll();
@@ -19,6 +16,7 @@ const KineticTextRow = ({ text, direction = 1, speed = 1 }) => {
 };
 
 const DemoTemplate8 = () => {
+    const { themeData } = usePersonalization();
     const { scrollYProgress } = useScroll();
     const circleSize = useTransform(scrollYProgress, [0, 0.5], ["0vw", "40vw"]);
 
@@ -35,24 +33,24 @@ const DemoTemplate8 = () => {
 
             {/* Sticky Background - The kinetic text */}
             <div style={{ position: 'fixed', inset: 0, zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none', opacity: 0.1 }}>
-                <KineticTextRow text="MARCUS + LINA" direction={1} />
-                <KineticTextRow text="MARCUS + LINA" direction={-1} />
-                <KineticTextRow text="MARCUS + LINA" direction={1} />
+                <KineticTextRow text={`${themeData.partner1} + ${themeData.partner2}`} direction={1} />
+                <KineticTextRow text={`${themeData.partner1} + ${themeData.partner2}`} direction={-1} />
+                <KineticTextRow text={`${themeData.partner1} + ${themeData.partner2}`} direction={1} />
             </div>
 
             {/* Extreme Massive Title */}
             <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '2rem', position: 'relative', zIndex: 2 }}>
                 <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, ease: "easeOut" }} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, letterSpacing: '10px', fontSize: '1.2rem', textTransform: 'uppercase', marginBottom: '2rem' }}>We Are Doing It</div>
-                    <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(6rem, 25vw, 25rem)', lineHeight: 0.8, margin: 0, textTransform: 'uppercase' }}>LINA</h1>
-                    <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(6rem, 25vw, 25rem)', lineHeight: 0.8, margin: 0, color: '#fff', WebkitTextStroke: '3px #111', textTransform: 'uppercase' }}>MARCUS</h1>
+                    <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(6rem, 25vw, 25rem)', lineHeight: 0.8, margin: 0, textTransform: 'uppercase' }}>{themeData.partner1}</h1>
+                    <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(6rem, 25vw, 25rem)', lineHeight: 0.8, margin: 0, color: '#fff', WebkitTextStroke: '3px #111', textTransform: 'uppercase' }}>{themeData.partner2}</h1>
                 </motion.div>
             </section>
 
             {/* Expanding Circular Image Reveal */}
             <section style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 3 }}>
                 <motion.div style={{ width: circleSize, height: circleSize, borderRadius: '50%', overflow: 'hidden', backgroundColor: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src={images[0]} style={{ width: '100vw', height: '100vh', objectFit: 'cover' }} alt="Couple" />
+                    <img src={themeData.imgHero} style={{ width: '100vw', height: '100vh', objectFit: 'cover' }} alt="Couple" />
                 </motion.div>
             </section>
 
@@ -63,11 +61,11 @@ const DemoTemplate8 = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', width: '100%', maxWidth: '800px' }}>
                     <div>
                         <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, fontSize: '1.5rem', marginBottom: '1rem', textTransform: 'uppercase', color: '#888' }}>WHERE</h3>
-                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '2rem', lineHeight: 1.2 }}>The Warehouse<br />Brooklyn, NYC</p>
+                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '2rem', lineHeight: 1.2 }}>{themeData.venueTitle}<br />{themeData.venueLocation}</p>
                     </div>
                     <div>
                         <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, fontSize: '1.5rem', marginBottom: '1rem', textTransform: 'uppercase', color: '#888' }}>WHEN</h3>
-                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '2rem', lineHeight: 1.2 }}>Midnight<br />New Years Eve.</p>
+                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '2rem', lineHeight: 1.2 }}>Midnight<br />{themeData.dateStr}.</p>
                     </div>
                 </div>
 

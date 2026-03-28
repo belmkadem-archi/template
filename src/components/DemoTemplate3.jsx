@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
-const images = [
-    "https://images.unsplash.com/photo-1532452119098-a3650b3c46d3?q=80&w=1000&auto=format&fit=crop", // bw couple
-    "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1000&auto=format&fit=crop", // detail
-    "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1000&auto=format&fit=crop", // moody
-];
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate3 = () => {
+    const { themeData } = usePersonalization();
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: targetRef });
 
@@ -45,10 +41,10 @@ const DemoTemplate3 = () => {
                         <div style={{ width: '100vw', height: '100%', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <h1 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: 'clamp(5rem, 18vw, 20rem)', lineHeight: 0.8, zIndex: 2, position: 'absolute', top: '15%', left: '5%', color: '#111', textTransform: 'uppercase' }}>THE<br />UNION</h1>
                             <div style={{ position: 'absolute', right: '10%', bottom: '0', width: '45vw', height: '80vh', overflow: 'hidden' }}>
-                                <img src={images[0]} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)' }} alt="Editorial Couple" />
+                                <img src={themeData.imgHero} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)' }} alt="Editorial Couple" />
                             </div>
                             <div style={{ position: 'absolute', left: '5%', bottom: '5%', fontFamily: "'Jost', sans-serif", fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                                Vol. 1 — October 2026<br />Lake Como
+                                Vol. 1 — {themeData.dateStr}<br />{themeData.venueLocation}
                             </div>
 
                             {/* Scroll indicator */}
@@ -64,7 +60,7 @@ const DemoTemplate3 = () => {
                         {/* Panel 2: The Details */}
                         <div style={{ width: '100vw', height: '100%', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <div style={{ width: '35vw', height: '60vh', position: 'absolute', left: '10%', top: '20%', zIndex: 1, boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}>
-                                <img src={images[1]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Detail" />
+                                <img src={themeData.imgDetail1} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Detail" />
                             </div>
                             <div style={{ zIndex: 2, background: '#e5e3db', padding: '4rem', maxWidth: '500px', marginLeft: '30vw', border: '1px solid rgba(17,17,17,0.1)' }}>
                                 <h2 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: '4rem', marginBottom: '2rem', fontStyle: 'italic' }}>You Are Invited</h2>
@@ -75,7 +71,7 @@ const DemoTemplate3 = () => {
                         {/* Panel 3: RSVP */}
                         <div style={{ width: '100vw', height: '100%', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', background: '#111', color: '#e5e3db' }}>
                             <div style={{ position: 'absolute', inset: 0, opacity: 0.3 }}>
-                                <img src={images[2]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Moody" />
+                                <img src={themeData.imgDetail2} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Moody" />
                             </div>
                             <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
                                 <h2 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: '12rem', marginBottom: '1rem', fontStyle: 'italic' }}>RSVP</h2>

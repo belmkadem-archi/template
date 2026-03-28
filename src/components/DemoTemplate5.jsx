@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { usePersonalization } from '../context/PersonalizationContext';
 
 const DemoTemplate5 = () => {
+    const { themeData } = usePersonalization();
     useEffect(() => {
         const link = document.createElement('link');
         link.href = 'https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:wght@200;400;600&display=swap';
@@ -33,8 +35,8 @@ const DemoTemplate5 = () => {
             <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', textAlign: 'center' }}>
                 <motion.div initial={{ opacity: 0, scale: 0.9, y: 50 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 1.5, ease: "easeOut" }} style={{ padding: '5rem', background: 'rgba(255,255,255,0.3)', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', borderRadius: '60px', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 40px 100px rgba(0,0,0,0.05)' }}>
                     <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, letterSpacing: '8px', fontSize: '1rem', textTransform: 'uppercase', marginBottom: '2rem', color: '#555' }}>We Invite You To The Future of Love</h2>
-                    <h1 style={{ fontFamily: "'Italiana', serif", fontSize: 'clamp(5rem, 15vw, 12rem)', lineHeight: 0.8, marginBottom: '2rem', color: '#111' }}>Emma <br /><span style={{ fontSize: '0.4em', verticalAlign: 'middle', fontFamily: "'Plus Jakarta Sans'", fontWeight: 200, color: '#ffb6c1' }}>&</span><br /> Liam</h1>
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '1.1rem', letterSpacing: '4px', opacity: 0.9, marginTop: '2rem', color: '#333' }}>NOVEMBER 12, 2026 • THE GLASSHOUSE</p>
+                    <h1 style={{ fontFamily: "'Italiana', serif", fontSize: 'clamp(5rem, 15vw, 12rem)', lineHeight: 0.8, marginBottom: '2rem', color: '#111' }}>{themeData.partner1} <br /><span style={{ fontSize: '0.4em', verticalAlign: 'middle', fontFamily: "'Plus Jakarta Sans'", fontWeight: 200, color: '#ffb6c1' }}>&</span><br /> {themeData.partner2}</h1>
+                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '1.1rem', letterSpacing: '4px', opacity: 0.9, marginTop: '2rem', color: '#333', textTransform: 'uppercase' }}>{themeData.dateFull} • {themeData.venueLocation}</p>
                 </motion.div>
             </div>
 
