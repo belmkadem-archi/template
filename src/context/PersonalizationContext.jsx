@@ -21,7 +21,13 @@ export const PersonalizationProvider = ({ children }) => {
         imgDetail3: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop',
     });
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('personalize') === 'true';
+        }
+        return false;
+    });
 
     const updateField = (field, value) => {
         setThemeData(prev => ({ ...prev, [field]: value }));

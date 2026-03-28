@@ -154,16 +154,19 @@ const PhoneCard = ({ template, index }) => {
                         onMouseOver={(e) => e.target.style.opacity = 0.8}
                         onMouseOut={(e) => e.target.style.opacity = 1}
                     >
-                        Have a look
+                        Live Preview
                     </a>
-                    <button
+                    <a
+                        href={`${template.path}?personalize=true`}
                         className="btn"
-                        style={{ backgroundColor: 'transparent', color: '#166E87', border: '1px solid #166E87', borderRadius: '30px', padding: '0.8rem 1.5rem', fontSize: '1rem', fontWeight: 500, flex: 1, cursor: 'pointer', transition: 'background 0.2s' }}
+                        style={{ backgroundColor: 'transparent', color: '#166E87', border: '1px solid #166E87', borderRadius: '30px', padding: '0.8rem 1.5rem', textDecoration: 'none', display: 'inline-block', fontSize: '1rem', fontWeight: 500, flex: 1, cursor: 'pointer', transition: 'background 0.2s' }}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onMouseOver={(e) => { e.target.style.backgroundColor = '#166E87'; e.target.style.color = '#fff'; }}
                         onMouseOut={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#166E87'; }}
                     >
-                        Order
-                    </button>
+                        Personalize
+                    </a>
                 </div>
             </div>
         </motion.div>
