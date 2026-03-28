@@ -5,6 +5,7 @@ import { usePersonalization } from '../context/PersonalizationContext';
 const OrderModal = ({ isOpen, onClose }) => {
     const { themeData } = usePersonalization();
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
+    const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -14,38 +15,94 @@ const OrderModal = ({ isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('loading');
+        setErrorMsg('');
 
-        // Compile payload
-        const payload = {
-            access_key: "fa1f63cd-09a7-4b4a-bf2c-0ccaf92f2ce7",
-            subject: `New Template Order from ${formData.name}`,
-            from_name: formData.name,
-            from_email: formData.email,
-            client_notes: formData.notes,
-            // Include all selected template data
-            customized_data: JSON.stringify(themeData, null, 2)
+        const ACCESS_KEY = "fa1f63cd-09a7-4b4a-bf2c-0ccaf92f2ce7";
+
+        // Email 1: Notify YOU (the owner)
+        const ownerPayload = {
+            access_key: ACCESS_KEY,
+            subject: `New Template Order — ${formData.name}`,
+            name: formData.name,
+            email: formData.email,
+            replyto: formData.email,
+            botcheck: false,
+            message: [
+                `=== NEW CLIENT ORDER ===`,
+                `Name: ${formData.name}`,
+                `Email: ${formData.email}`,
+                `Notes: ${formData.notes || 'None'}`,
+                ``,
+                `=== CUSTOMIZED TEMPLATE ===`,
+                `Partner 1: ${themeData.partner1}`,
+                `Partner 2: ${themeData.partner2}`,
+                `Date: ${themeData.dateFull}`,
+                `Venue: ${themeData.venueTitle}, ${themeData.venueLocation}`,
+                `Custom Message: ${themeData.customMessage}`,
+                `Primary Color: ${themeData.primaryColor}`,
+                `Accent Color: ${themeData.accentColor}`,
+                `Background: ${themeData.bgColor}`,
+                `Text Color: ${themeData.textColor}`,
+                `Hero Image: ${themeData.imgHero}`,
+            ].join('\n')
+        };
+
+        // Email 2: Confirmation to the CLIENT
+        const clientPayload = {
+            access_key: ACCESS_KEY,
+            subject: `Your invitation design order has been received!`,
+            name: "Wedding Invitation Studio",
+            email_to: formData.email,
+            email: formData.email,
+            replyto: formData.email,
+            botcheck: false,
+            message: [
+                `Dear ${formData.name},`,
+                ``,
+                `Thank you for choosing us! We have received your personalized design order.`,
+                `Our team will review your details and contact you within 24 hours.`,
+                ``,
+                `=== YOUR ORDER SUMMARY ===`,
+                `Names: ${themeData.partner1} & ${themeData.partner2}`,
+                `Wedding Date: ${themeData.dateFull}`,
+                `Venue: ${themeData.venueTitle}, ${themeData.venueLocation}`,
+                `Your notes: ${formData.notes || 'None'}`,
+                ``,
+                `We look forward to making your wedding day unforgettable.`,
+                ``,
+                `With love,`,
+                `The Wedding Invitation Studio Team`,
+            ].join('\n')
         };
 
         try {
-            // Send to Web3Forms API
-            const response = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
+            const [ownerRes, clientRes] = await Promise.all([
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify(ownerPayload)
+                }),
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify(clientPayload)
+                })
+            ]);
+
+            const ownerResult = await ownerRes.json();
+            const clientResult = await clientRes.json();
+            console.log('[Web3Forms] Owner:', ownerResult);
+            console.log('[Web3Forms] Client:', clientResult);
+
+            if (ownerResult.success || clientResult.success) {
                 setStatus('success');
             } else {
+                setErrorMsg(ownerResult.message || 'Submission failed. Please try again.');
                 setStatus('error');
             }
         } catch (error) {
-            console.error(error);
+            console.error('[Web3Forms] Error:', error);
+            setErrorMsg('Network error. Please check your connection.');
             setStatus('error');
         }
     };
@@ -183,7 +240,10 @@ const OrderModal = ({ isOpen, onClose }) => {
                                         </div>
 
                                         {status === 'error' && (
-                                            <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center' }}>Something went wrong. Please try again or email us directly.</div>
+                                            <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', padding: '0.8rem', background: '#fef2f2', borderRadius: '8px', border: '1px solid #fecaca' }}>
+                                                <strong>Error:</strong> {errorMsg || 'Something went wrong. Please try again.'}
+                                                {!errorMsg && <><br/><span style={{opacity:0.7}}>Check the browser console (F12) for details.</span></>}
+                                            </div>
                                         )}
 
                                         <button 
