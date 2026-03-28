@@ -17,7 +17,7 @@ const OrderModal = ({ isOpen, onClose }) => {
 
         // Compile payload
         const payload = {
-            access_key: "YOUR_WEB3FORMS_ACCESS_KEY_HERE", // Replace with real key from web3forms.com
+            access_key: "fa1f63cd-09a7-4b4a-bf2c-0ccaf92f2ce7",
             subject: `New Template Order from ${formData.name}`,
             from_name: formData.name,
             from_email: formData.email,
@@ -39,20 +39,14 @@ const OrderModal = ({ isOpen, onClose }) => {
             
             const result = await response.json();
             
-            if (result.success || payload.access_key === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
-                // We simulate success if the key is the placeholder to avoid breaking the demo
+            if (result.success) {
                 setStatus('success');
             } else {
                 setStatus('error');
             }
         } catch (error) {
             console.error(error);
-            // Simulate success for demo purposes if fetch fails due to dummy key
-            if (payload.access_key === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
-                setStatus('success');
-            } else {
-                 setStatus('error');
-            }
+            setStatus('error');
         }
     };
 
