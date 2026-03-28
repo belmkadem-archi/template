@@ -22,10 +22,10 @@ const PremiumTemplate = () => {
         fontScript: "'Pinyon Script', cursive",
         fontSerif: "'Cormorant Garamond', serif",
         fontSans: "'Outfit', sans-serif",
-        accent: "#b59870",
-        bg: "#FAFAF9",
+        accent: themeData.accentColor,
+        bg: themeData.bgColor,
         surface: "#ffffff",
-        text: "#1c1917"
+        text: themeData.textColor
     };
 
     return (
@@ -86,9 +86,9 @@ const PremiumTemplate = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 1, delay: 0.2 }}
-                    style={{ fontSize: '1.6rem', lineHeight: 1.8, color: theme.text, fontWeight: 300 }}
+                    style={{ fontSize: '1.6rem', lineHeight: 1.8, color: theme.text, fontWeight: 300, whiteSpace: 'pre-line' }}
                 >
-                    It is impossible to imagine this day without our closest people. Thus, we are incredibly happy to invite you to join and share this wonderful occasion with us.
+                    {themeData.customMessage}
                 </motion.p>
             </section>
 
@@ -169,7 +169,7 @@ const PremiumTemplate = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    style={{ maxWidth: '600px', margin: '0 auto', background: '#1c1917', color: '#fff', padding: '5rem 3rem', borderRadius: '30px' }}
+                    style={{ maxWidth: '600px', margin: '0 auto', background: themeData.primaryColor, color: themeData.bgColor, padding: '5rem 3rem', borderRadius: '30px' }}
                 >
                     <h2 style={{ fontFamily: theme.fontScript, fontSize: '4.5rem', marginBottom: '1rem', color: theme.accent }}>Confirm presence</h2>
                     <p style={{ fontFamily: theme.fontSans, fontWeight: 300, opacity: 0.8, marginBottom: '4rem', letterSpacing: '2px', fontSize: '0.8rem' }}>KINDLY REPLY BY MARCH 1ST</p>

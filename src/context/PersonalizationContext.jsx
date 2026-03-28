@@ -15,6 +15,11 @@ export const PersonalizationProvider = ({ children }) => {
         dateFull: '15.08.2025',
         venueTitle: 'Villa Balbiano',
         venueLocation: 'Lake Como, Italy',
+        customMessage: 'It is impossible to imagine this day without our closest people. Thus, we are incredibly happy to invite you to join and share this wonderful occasion with us.',
+        primaryColor: '#1A2F33',
+        accentColor: '#B09069',
+        bgColor: '#FAFAF9',
+        textColor: '#1c1917',
         imgHero: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop',
         imgDetail1: 'https://images.unsplash.com/photo-1544078755-9a849f50e82c?q=80&w=1000&auto=format&fit=crop',
         imgDetail2: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop',
@@ -33,10 +38,14 @@ export const PersonalizationProvider = ({ children }) => {
         setThemeData(prev => ({ ...prev, [field]: value }));
     };
 
+    const applyChanges = (newThemeData) => {
+        setThemeData(newThemeData);
+    };
+
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
     return (
-        <PersonalizationContext.Provider value={{ themeData, updateField, isMenuOpen, toggleMenu }}>
+        <PersonalizationContext.Provider value={{ themeData, updateField, applyChanges, isMenuOpen, toggleMenu }}>
             {children}
         </PersonalizationContext.Provider>
     );

@@ -62,9 +62,9 @@ const DemoTemplate3 = () => {
                             <div style={{ width: '35vw', height: '60vh', position: 'absolute', left: '10%', top: '20%', zIndex: 1, boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}>
                                 <img src={themeData.imgDetail1} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Detail" />
                             </div>
-                            <div style={{ zIndex: 2, background: '#e5e3db', padding: '4rem', maxWidth: '500px', marginLeft: '30vw', border: '1px solid rgba(17,17,17,0.1)' }}>
-                                <h2 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: '4rem', marginBottom: '2rem', fontStyle: 'italic' }}>You Are Invited</h2>
-                                <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '1.2rem', lineHeight: 1.8, fontWeight: 300 }}>An intimate celebration of love and commitment, held in the beautiful gardens of Villa Del Balbianello. Dress strictly Black Tie, arriving at 4:00 PM precisely.</p>
+                            <div style={{ zIndex: 2, background: themeData.bgColor || '#e5e3db', padding: '4rem', maxWidth: '500px', marginLeft: '30vw', border: '1px solid rgba(17,17,17,0.1)' }}>
+                                <h2 style={{ fontFamily: "'Bodoni Moda', serif", fontSize: '4rem', marginBottom: '2rem', fontStyle: 'italic', color: themeData.primaryColor || '#111' }}>You Are Invited</h2>
+                                <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '1.2rem', lineHeight: 1.8, fontWeight: 300, color: themeData.textColor || '#111', whiteSpace: 'pre-line' }}>{themeData.customMessage}</p>
                             </div>
                         </div>
 

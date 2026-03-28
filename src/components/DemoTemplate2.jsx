@@ -31,9 +31,9 @@ const DemoTemplate2 = () => {
         script: "'Monsieur La Doulaise', cursive",
         serif: "'Cinzel', serif",
         sans: "'Montserrat', sans-serif",
-        bg: "#FDFCF8",
-        dark: "#1A1A1A",
-        gold: "#C5A880"
+        bg: themeData.bgColor,
+        dark: themeData.textColor,
+        gold: themeData.accentColor
     };
 
     const textVariants = {
@@ -93,8 +93,8 @@ const DemoTemplate2 = () => {
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
                     >
                         <motion.h2 variants={textVariants} style={{ fontFamily: theme.serif, fontSize: '3.5rem', marginBottom: '2rem' }}>Our Love Story</motion.h2>
-                        <motion.p variants={textVariants} style={{ fontFamily: theme.sans, fontSize: '1.2rem', lineHeight: 2, fontWeight: 300, color: '#555' }}>
-                            Two hearts, one journey. We are thrilled to invite you to witness the beginning of our new chapter. Enjoy an evening of romance, fine dining, and endless dancing under the stars.
+                        <motion.p variants={textVariants} style={{ fontFamily: theme.sans, fontSize: '1.2rem', lineHeight: 2, fontWeight: 300, color: '#555', whiteSpace: 'pre-line' }}>
+                            {themeData.customMessage}
                         </motion.p>
                     </motion.div>
 
