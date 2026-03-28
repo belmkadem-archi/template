@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePersonalization } from '../context/PersonalizationContext';
+import OrderModal from './OrderModal';
 
 const baseInputStyle = {
     width: '100%',
@@ -59,6 +60,7 @@ const InputField = ({ label, value, onChange, type = "text" }) => (
 const PersonalizerSidebar = () => {
     const { themeData, applyChanges, isMenuOpen, toggleMenu } = usePersonalization();
     const [draftData, setDraftData] = useState(themeData);
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     // Sync draft data if themeData comes in from outside (e.g. initial load)
     useEffect(() => {
@@ -199,11 +201,35 @@ const PersonalizerSidebar = () => {
                                 >
                                     Apply Changes
                                 </button>
+
+                                <button
+                                    onClick={() => setIsOrderModalOpen(true)}
+                                    style={{
+                                        width: '100%',
+                                        padding: '1.2rem',
+                                        marginTop: '1rem',
+                                        backgroundColor: '#007A90',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        fontSize: '1rem',
+                                        fontWeight: 600,
+                                        letterSpacing: '1px',
+                                        textTransform: 'uppercase',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                                        transition: 'background-color 0.2s'
+                                    }}
+                                >
+                                    Order Checkout
+                                </button>
                             </div>
                         </motion.div>
                     </>
                 )}
             </AnimatePresence>
+
+            <OrderModal isOpen={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)} />
         </>
     );
 };
