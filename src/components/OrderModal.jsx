@@ -157,22 +157,69 @@ const OrderModal = ({ isOpen, onClose }) => {
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </motion.div>
-                                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', color: '#111', marginBottom: '1rem' }}>
-                                    Order Confirmed! 🎉
+                                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', color: '#111', marginBottom: '0.75rem' }}>
+                                    Order Received! 🎉
                                 </h2>
-                                <p style={{ fontFamily: "'Montserrat', sans-serif", color: '#4b5563', lineHeight: 1.7, marginBottom: '0.5rem' }}>
+                                <p style={{ fontFamily: "'Montserrat', sans-serif", color: '#4b5563', lineHeight: 1.7, marginBottom: '0.4rem' }}>
                                     Thank you, <strong>{formData.name}</strong>!
                                 </p>
-                                <p style={{ fontFamily: "'Montserrat', sans-serif", color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '2rem' }}>
-                                    A confirmation email has been sent to <strong>{formData.email}</strong>.<br />
-                                    Our team will contact you within <strong>24 hours</strong> with the next steps and your finalized invitation.
+                                <p style={{ fontFamily: "'Montserrat', sans-serif", color: '#6b7280', fontSize: '0.85rem', lineHeight: 1.7, marginBottom: '1.8rem' }}>
+                                    Confirmation sent to <strong>{formData.email}</strong>.<br />
+                                    Complete your payment below to secure your booking.
                                 </p>
+
+                                {/* Paddle Payment Tiers */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', marginBottom: '1.5rem' }}>
+
+                                    {/* Full Service $99 */}
+                                    <motion.a
+                                        href={`https://buy.paddle.com/buy/pri_01kmwcjh83w7665n0pbm4rjnpm?email=${encodeURIComponent(formData.email)}&customer_name=${encodeURIComponent(formData.name)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        style={{
+                                            display: 'block', padding: '1.1rem 1.4rem',
+                                            background: 'linear-gradient(135deg, #007A90, #005f70)',
+                                            color: '#fff', borderRadius: '12px', textDecoration: 'none',
+                                            fontFamily: "'Montserrat', sans-serif",
+                                            boxShadow: '0 8px 25px rgba(0,122,144,0.3)',
+                                            position: 'relative', overflow: 'hidden', textAlign: 'left',
+                                        }}
+                                    >
+                                        <div style={{ position: 'absolute', top: '8px', right: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '100px', padding: '2px 9px', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '1px' }}>RECOMMENDED</div>
+                                        <div style={{ fontWeight: 800, fontSize: '1rem' }}>Full Service — $99</div>
+                                        <div style={{ fontSize: '0.75rem', opacity: 0.85, marginTop: '3px' }}>We design, customize &amp; deliver your invitation ✨</div>
+                                    </motion.a>
+
+                                    {/* DIY $49 */}
+                                    <motion.a
+                                        href={`https://buy.paddle.com/buy/pri_01kmwchqpgs2gmanvbxvrgka70?email=${encodeURIComponent(formData.email)}&customer_name=${encodeURIComponent(formData.name)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        style={{
+                                            display: 'block', padding: '1rem 1.4rem',
+                                            background: '#fff', color: '#1A2F33',
+                                            borderRadius: '12px', textDecoration: 'none',
+                                            fontFamily: "'Montserrat', sans-serif",
+                                            border: '2px solid #e5e7eb',
+                                            boxShadow: '0 4px 12px rgba(0,0,0,0.05)', textAlign: 'left',
+                                        }}
+                                    >
+                                        <div style={{ fontWeight: 700, fontSize: '1rem' }}>DIY Template — $49</div>
+                                        <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '3px' }}>Access &amp; personalize the template yourself</div>
+                                    </motion.a>
+                                </div>
+
                                 <button
                                     onClick={() => { onClose(); setStatus('idle'); setFormData({ name: '', email: '', notes: '' }); }}
                                     style={{
-                                        padding: '1rem 3rem', backgroundColor: '#111', color: '#fff',
-                                        border: 'none', borderRadius: '8px', fontFamily: "'Montserrat', sans-serif",
-                                        fontWeight: 600, cursor: 'pointer', transition: 'opacity 0.2s',
+                                        padding: '0.7rem 2rem', background: 'transparent', color: '#9ca3af',
+                                        border: '1px solid #e5e7eb', borderRadius: '8px',
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontSize: '0.82rem', cursor: 'pointer',
                                     }}
                                 >
                                     Close Window
