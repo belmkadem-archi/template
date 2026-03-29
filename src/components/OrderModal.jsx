@@ -8,10 +8,10 @@ import { usePersonalization } from '../context/PersonalizationContext';
 //  Sign up free at https://www.emailjs.com
 //  Then fill in these 3 values:
 // ─────────────────────────────────────────────
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abcDEFgh...'
-const OWNER_TEMPLATE_ID   = 'YOUR_OWNER_TEMPLATE_ID';   // template that notifies YOU
-const CLIENT_TEMPLATE_ID  = 'YOUR_CLIENT_TEMPLATE_ID';  // template that confirms to CLIENT
+const EMAILJS_SERVICE_ID  = 'service_t9v8j4p';
+const EMAILJS_PUBLIC_KEY  = 'ljsn2yUo4ELpg1Qc5';
+const OWNER_TEMPLATE_ID   = 'template_olc3d5b';   // notifies you (owner)
+const CLIENT_TEMPLATE_ID  = 'template_zb2ee2u';   // confirmation to client
 // ─────────────────────────────────────────────
 
 const OrderModal = ({ isOpen, onClose }) => {
