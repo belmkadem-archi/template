@@ -1,129 +1,234 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// Animation 1: Instant Delivery (Envelope / Notification)
+// Real photo URLs (verified Unsplash wedding images)
+const PHOTO_DELIVERY = 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=600&h=1100';
+const PHOTO_INTERACTIVE = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=600&h=1100';
+
+// Animation 1: Instant Delivery — real photo with notification overlay
 const InstantDeliveryAnimation = () => {
     return (
-        <div style={{ width: '100%', height: '100%', backgroundColor: '#F8FAFC', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            {/* Notification drop down */}
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+            {/* Full-bleed hero photo */}
+            <motion.img
+                src={PHOTO_DELIVERY}
+                alt="Wedding"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+                initial={{ scale: 1.08 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 6, ease: 'easeOut' }}
+            />
+
+            {/* Dark gradient overlay for readability */}
+            <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%)'
+            }} />
+
+            {/* Animated notification drop-in */}
             <motion.div
-                animate={{ y: [-100, 20, 20, 20, -100], opacity: [0, 1, 1, 1, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', top: '15%', width: '80%', padding: '12px', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', display: 'flex', gap: '12px', alignItems: 'center', zIndex: 10 }}
+                animate={{ y: [-120, 20, 20, 20, -120], opacity: [0, 1, 1, 1, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.5 }}
+                style={{
+                    position: 'absolute', top: '8%', left: '8%', right: '8%',
+                    background: 'rgba(255,255,255,0.92)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '18px',
+                    padding: '14px 16px',
+                    display: 'flex', gap: '12px', alignItems: 'center',
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.25)',
+                    zIndex: 10
+                }}
             >
-                <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg, #166E87, #0B3A48)' }} />
-                <div style={{ flex: 1 }}>
-                    <div style={{ height: '8px', width: '60%', background: '#E2E8F0', borderRadius: '4px', marginBottom: '6px' }} />
-                    <div style={{ height: '6px', width: '40%', background: '#F1F5F9', borderRadius: '4px' }} />
+                <div style={{
+                    width: '38px', height: '38px', borderRadius: '10px',
+                    background: 'linear-gradient(135deg, #166E87, #0B3A48)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '18px', flexShrink: 0
+                }}>
+                    💍
                 </div>
+                <div style={{ flex: 1, overflow: 'hidden' }}>
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.8rem', color: '#111', whiteSpace: 'nowrap' }}>Wedding Invitation</div>
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', color: '#555', marginTop: '2px', whiteSpace: 'nowrap' }}>Sarah & James — Delivered ✨</div>
+                </div>
+                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.65rem', color: '#999', flexShrink: 0 }}>now</div>
             </motion.div>
 
-            {/* Envelope & Card */}
-            <div style={{ position: 'relative', width: '150px', height: '110px', marginTop: '40px' }}>
-                {/* Back flap */}
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: '#E2E8F0', borderRadius: '8px' }} />
-                {/* Sliding Card */}
-                <motion.div
-                    animate={{ y: [0, -70, -70, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', height: '130px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 -5px 15px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '20px' }}
-                >
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '2px solid #166E87', marginBottom: '10px' }} />
-                    <div style={{ height: '4px', width: '60%', background: '#166E87', borderRadius: '2px', opacity: 0.5, marginBottom: '6px' }} />
-                    <div style={{ height: '4px', width: '40%', background: '#E2E8F0', borderRadius: '2px' }} />
-                </motion.div>
-                {/* Front flap overlay */}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '70px', backgroundColor: '#F1F5F9', borderRadius: '8px', clipPath: 'polygon(0 0, 50% 40%, 100% 0, 100% 100%, 0 100%)' }} />
-            </div>
+            {/* Bottom card — elegant glass card */}
+            <motion.div
+                initial={{ y: 80, opacity: 0 }}
+                animate={{ y: [80, 0, 0, 80], opacity: [0, 1, 1, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                style={{
+                    position: 'absolute', bottom: '6%', left: '8%', right: '8%',
+                    background: 'rgba(255,255,255,0.90)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '20px',
+                    padding: '18px',
+                    boxShadow: '0 -10px 40px rgba(0,0,0,0.2)',
+                    zIndex: 10
+                }}
+            >
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1rem', color: '#1A2F33', fontWeight: 600, marginBottom: '4px' }}>You're Invited 🌸</div>
+                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', color: '#6b7280', lineHeight: 1.5 }}>
+                    Sarah & James · June 14, 2025<br />The Grand Château, Paris
+                </div>
+                <div style={{
+                    marginTop: '12px',
+                    padding: '8px 16px',
+                    background: 'linear-gradient(135deg, #166E87, #0B3A48)',
+                    borderRadius: '100px', display: 'inline-block',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: '0.7rem', fontWeight: 700,
+                    color: '#fff', letterSpacing: '1px'
+                }}>
+                    RSVP NOW
+                </div>
+            </motion.div>
         </div>
     );
 };
 
-// Animation 2: Interactive Experience (Map & Itinerary)
+// Animation 2: Interactive Experience — real photo with UI overlay
 const InteractiveAnimation = () => {
     return (
-        <div style={{ width: '100%', height: '100%', backgroundColor: '#E2E8F0', position: 'relative', overflow: 'hidden' }}>
-            {/* Map Grid / Lines */}
-            <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                style={{ position: 'absolute', inset: -50, backgroundSize: '40px 40px', backgroundImage: 'linear-gradient(to right, #CBD5E1 1px, transparent 1px), linear-gradient(to bottom, #CBD5E1 1px, transparent 1px)', opacity: 0.8 }}
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+            {/* Full-bleed photo */}
+            <motion.img
+                src={PHOTO_INTERACTIVE}
+                alt="Wedding venue"
+                style={{ width: '100%', height: '50%', objectFit: 'cover', objectPosition: 'center top' }}
+                initial={{ scale: 1.05 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 6, ease: 'easeOut' }}
             />
 
-            {/* Map Pin */}
+            {/* Lower half: clean white UI */}
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '58%', background: '#fff', borderTopLeftRadius: '0', zIndex: 2 }} />
+
+            {/* Sliding bottom sheet with map + details */}
             <motion.div
-                animate={{ y: [0, -15, 0], scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', top: '35%', left: '50%', transform: 'translate(-50%, -50%)', width: '24px', height: '36px', background: '#166E87', borderRadius: '12px 12px 0 0', clipPath: 'polygon(50% 100%, 0 40%, 0 0, 100% 0, 100% 40%)', zIndex: 2 }}
+                animate={{ y: ['60%', '0%', '0%', '60%'] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0,
+                    height: '62%',
+                    background: '#fff',
+                    borderTopLeftRadius: '28px', borderTopRightRadius: '28px',
+                    boxShadow: '0 -20px 50px rgba(0,0,0,0.15)',
+                    zIndex: 5, padding: '18px 20px',
+                    display: 'flex', flexDirection: 'column', gap: '14px'
+                }}
             >
-                <div style={{ width: '8px', height: '8px', backgroundColor: '#fff', borderRadius: '50%', position: 'absolute', top: '8px', left: '8px' }} />
+                {/* Pill handle */}
+                <div style={{ width: '36px', height: '4px', background: '#E2E8F0', borderRadius: '2px', margin: '0 auto 4px' }} />
+
+                {/* Mini map strip */}
+                <div style={{
+                    height: '80px', borderRadius: '14px', overflow: 'hidden',
+                    background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%)',
+                    position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    {/* Grid lines suggesting a map */}
+                    <div style={{ position: 'absolute', inset: 0, backgroundSize: '20px 20px', backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.4) 1px, transparent 1px)' }} />
+                    <motion.div
+                        animate={{ y: [0, -6, 0], scale: [1, 1.15, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                        style={{ zIndex: 2, fontSize: '22px' }}
+                    >📍</motion.div>
+                </div>
+
+                {/* Details rows */}
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: 'linear-gradient(135deg, #fdf4ff, #f3e8ff)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0
+                    }}>🏰</div>
+                    <div>
+                        <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.78rem', color: '#111' }}>The Grand Château</div>
+                        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.68rem', color: '#9ca3af' }}>Paris, France · 3.2 km away</div>
+                    </div>
+                </div>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: 'linear-gradient(135deg, #ecfdf5, #d1fae5)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0
+                    }}>📅</div>
+                    <div>
+                        <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.78rem', color: '#111' }}>June 14, 2025 · 6:00 PM</div>
+                        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.68rem', color: '#9ca3af' }}>Add to Calendar</div>
+                    </div>
+                </div>
             </motion.div>
 
-            {/* Ripple under pin */}
+            {/* Pulsing map pin on photo area */}
             <motion.div
-                animate={{ scale: [1, 3], opacity: [0.5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                style={{ position: 'absolute', top: '35%', left: '50%', width: '20px', height: '20px', marginLeft: '-10px', marginTop: '-10px', backgroundColor: '#166E87', borderRadius: '50%', zIndex: 1 }}
-            />
-
-            {/* Bottom Sheet Itinerary sliding up */}
-            <motion.div
-                animate={{ y: ['100%', '0%', '0%', '100%'] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%', backgroundColor: '#fff', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', boxShadow: '0 -10px 30px rgba(0,0,0,0.1)', padding: '20px', zIndex: 5, display: 'flex', flexDirection: 'column', gap: '15px' }}
+                animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={{
+                    position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)',
+                    fontSize: '28px', zIndex: 4
+                }}
             >
-                <div style={{ width: '40px', height: '4px', backgroundColor: '#E2E8F0', borderRadius: '2px', margin: '0 auto' }} />
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginTop: '10px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '8px', backgroundColor: '#F1F5F9' }} />
-                    <div style={{ flex: 1 }}>
-                        <div style={{ height: '6px', width: '70%', background: '#166E87', borderRadius: '3px', marginBottom: '8px' }} />
-                        <div style={{ height: '4px', width: '40%', background: '#CBD5E1', borderRadius: '2px' }} />
-                    </div>
-                </div>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '8px', backgroundColor: '#F1F5F9' }} />
-                    <div style={{ flex: 1 }}>
-                        <div style={{ height: '6px', width: '50%', background: '#166E87', borderRadius: '3px', marginBottom: '8px' }} />
-                        <div style={{ height: '4px', width: '30%', background: '#CBD5E1', borderRadius: '2px' }} />
-                    </div>
-                </div>
+                📍
             </motion.div>
         </div>
     );
 };
 
-// Reusable Mockup Container matching the user's reference exactly
+// Reusable Mockup Container
 const DeviceMockupContainer = ({ children }) => {
     return (
         <div style={{
-            backgroundColor: '#F3F4F6', // The soft grey box from the screenshot
+            background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
             borderRadius: '32px',
-            padding: '3rem 2rem',
+            padding: '2.5rem 2rem',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: '100%',
-            minHeight: '500px'
+            minHeight: '520px',
+            boxShadow: 'inset 0 2px 20px rgba(0,0,0,0.04)'
         }}>
-            {/* The Mobile Phone boundary inside the grey box */}
             <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8 }}
                 style={{
-                    width: '260px',
-                    height: '520px',
-                    backgroundColor: '#fff',
-                    borderRadius: '36px',
-                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)',
-                    overflow: 'hidden',
-                    border: '8px solid #E5E7EB', // Subtle bezel
-                    position: 'relative'
+                    width: '240px',
+                    height: '490px',
+                    backgroundColor: '#111',
+                    borderRadius: '40px',
+                    padding: '10px',
+                    position: 'relative',
+                    boxShadow: '0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset',
+                    border: '1px solid #333'
                 }}
             >
-                {/* Dynamic animated content inside the phone */}
-                {children}
+                {/* Dynamic island */}
+                <div style={{
+                    position: 'absolute', top: '10px', left: '50%', transform: 'translateX(-50%)',
+                    width: '80px', height: '22px', backgroundColor: '#000',
+                    borderBottomLeftRadius: '14px', borderBottomRightRadius: '14px',
+                    zIndex: 20
+                }} />
+                {/* Buttons */}
+                <div style={{ position: 'absolute', right: '-3px', top: '100px', width: '3px', height: '45px', background: '#333', borderRadius: '2px' }} />
+                <div style={{ position: 'absolute', left: '-3px', top: '80px', width: '3px', height: '35px', background: '#333', borderRadius: '2px' }} />
+                <div style={{ position: 'absolute', left: '-3px', top: '125px', width: '3px', height: '55px', background: '#333', borderRadius: '2px' }} />
+                {/* Screen */}
+                <div style={{
+                    width: '100%', height: '100%',
+                    borderRadius: '32px', overflow: 'hidden',
+                    position: 'relative',
+                    backgroundColor: '#000'
+                }}>
+                    {children}
+                </div>
             </motion.div>
         </div>
     );
@@ -140,7 +245,7 @@ const FeaturesSection = () => {
     }, []);
 
     const CheckMark = () => (
-        <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'rgba(22, 110, 135, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#166E87', fontSize: '10px', fontWeight: 'bold' }}>✓</div>
+        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'linear-gradient(135deg, #166E87, #0B3A48)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '11px', fontWeight: 'bold', flexShrink: 0 }}>✓</div>
     );
 
     return (
@@ -154,7 +259,7 @@ const FeaturesSection = () => {
                     </p>
                 </div>
 
-                {/* Feature 1: Grey Box Mockup (Left) | Text (Right) */}
+                {/* Feature 1 */}
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '3rem' : '6rem', alignItems: 'center', marginBottom: '8rem' }}>
                     <div style={{ order: isMobile ? 2 : 1 }}>
                         <DeviceMockupContainer>
@@ -163,36 +268,56 @@ const FeaturesSection = () => {
                     </div>
 
                     <div style={{ order: isMobile ? 1 : 2 }}>
-                        <h3 style={{ fontSize: '2.2rem', marginBottom: '1rem', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif", color: '#1A2F33' }}>Instant Delivery</h3>
-                        <p style={{ color: '#6B7280', fontSize: '1rem', marginBottom: '2rem', fontWeight: 300, lineHeight: 1.8 }}>
-                            No postage delays, no lost mail. Your elegant digital invitations arrive instantly to your guests' smartphones, no matter where they are in the world.
-                        </p>
-                        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
-                                <CheckMark /> Save on postage and printing costs
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
-                                <CheckMark /> Instant RSVP tracking
-                            </li>
-                        </ul>
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7 }}
+                        >
+                            <div style={{ display: 'inline-block', background: 'rgba(22,110,135,0.08)', borderRadius: '100px', padding: '6px 16px', marginBottom: '1.5rem' }}>
+                                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.8rem', fontWeight: 600, color: '#166E87', letterSpacing: '1px', textTransform: 'uppercase' }}>⚡ Instant</span>
+                            </div>
+                            <h3 style={{ fontSize: '2.2rem', marginBottom: '1rem', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif", color: '#1A2F33' }}>Instant Delivery</h3>
+                            <p style={{ color: '#6B7280', fontSize: '1rem', marginBottom: '2rem', fontWeight: 300, lineHeight: 1.8 }}>
+                                No postage delays, no lost mail. Your elegant digital invitations arrive instantly to your guests' smartphones, no matter where they are in the world.
+                            </p>
+                            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
+                                    <CheckMark /> Save on postage and printing costs
+                                </li>
+                                <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
+                                    <CheckMark /> Instant RSVP tracking
+                                </li>
+                            </ul>
+                        </motion.div>
                     </div>
                 </div>
 
-                {/* Feature 2: Text (Left) | Grey Box Mockup (Right) */}
+                {/* Feature 2 */}
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '3rem' : '6rem', alignItems: 'center' }}>
                     <div style={{ order: 1 }}>
-                        <h3 style={{ fontSize: '2.2rem', marginBottom: '1rem', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif", color: '#1A2F33' }}>Interactive Experience</h3>
-                        <p style={{ color: '#6B7280', fontSize: '1rem', marginBottom: '2rem', fontWeight: 300, lineHeight: 1.8 }}>
-                            Give your guests an experience they won't forget. Features include interactive maps, one-click calendar additions, and integrated gift registries.
-                        </p>
-                        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
-                                <CheckMark /> Google Maps & Itinerary
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
-                                <CheckMark /> Integrated Gift Registry
-                            </li>
-                        </ul>
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7 }}
+                        >
+                            <div style={{ display: 'inline-block', background: 'rgba(22,110,135,0.08)', borderRadius: '100px', padding: '6px 16px', marginBottom: '1.5rem' }}>
+                                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.8rem', fontWeight: 600, color: '#166E87', letterSpacing: '1px', textTransform: 'uppercase' }}>🗺 Interactive</span>
+                            </div>
+                            <h3 style={{ fontSize: '2.2rem', marginBottom: '1rem', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif", color: '#1A2F33' }}>Interactive Experience</h3>
+                            <p style={{ color: '#6B7280', fontSize: '1rem', marginBottom: '2rem', fontWeight: 300, lineHeight: 1.8 }}>
+                                Give your guests an experience they won't forget. Features include interactive maps, one-click calendar additions, and integrated gift registries.
+                            </p>
+                            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
+                                    <CheckMark /> Google Maps & Itinerary
+                                </li>
+                                <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#374151', fontSize: '0.95rem' }}>
+                                    <CheckMark /> Integrated Gift Registry
+                                </li>
+                            </ul>
+                        </motion.div>
                     </div>
 
                     <div style={{ order: 2 }}>
