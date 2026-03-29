@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 const templates = [
-    { id: 1, name: 'Glassmorphic', path: '/demo', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 2, name: 'Cinematic Flow', path: '/demo2', img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 3, name: 'Vogue Editorial', path: '/demo3', img: 'https://images.unsplash.com/photo-1544078755-9a849f50e82c?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 4, name: 'Brutalist Night', path: '/demo4', img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 5, name: 'Fluid Aura', path: '/demo5', img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 1, name: 'Glassmorphic',       path: '/demo',  img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 2, name: 'Cinematic Flow',     path: '/demo2', img: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 3, name: 'Vogue Editorial',    path: '/demo3', img: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 4, name: 'Brutalist Night',    path: '/demo4', img: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 5, name: 'Fluid Aura',         path: '/demo5', img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600&h=1200' },
     { id: 6, name: 'Intimate Scrapbook', path: '/demo6', img: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 7, name: 'Fine Art Split', path: '/demo7', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 8, name: 'Kinetic Monotype', path: '/demo8', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=600&h=1200' },
-    { id: 9, name: 'Physics Overload', path: '/demo9', img: 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 7, name: 'Fine Art Split',     path: '/demo7', img: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 8, name: 'Kinetic Monotype',   path: '/demo8', img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600&h=1200' },
+    { id: 9, name: 'Physics Overload',   path: '/demo9', img: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&q=80&w=600&h=1200' },
 ];
 
 const PhoneMockup = ({ img, activeHover }) => {
@@ -63,7 +63,6 @@ const PhoneMockup = ({ img, activeHover }) => {
                 borderRadius: '30px',
                 overflow: 'hidden',
                 position: 'relative',
-                // Slight inner shadow to simulate screen bezel depth
                 boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)'
             }}>
                 <motion.img
@@ -83,11 +82,9 @@ const PhoneCard = ({ template, index }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
-    // Smooth the motion values for the 3D rotation
     const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
     const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
-    // Rotate based on mouse position relative to card center
     const rotateX = useTransform(mouseYSpring, [-150, 150], [12, -12]);
     const rotateY = useTransform(mouseXSpring, [-150, 150], [-12, 12]);
 
@@ -112,13 +109,13 @@ const PhoneCard = ({ template, index }) => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
             style={{
-                backgroundColor: '#F3F4F6', // The soft beautiful gray background
+                backgroundColor: '#F3F4F6',
                 borderRadius: '32px',
                 padding: '3rem 2rem',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                perspective: 1200 // Essential for the 3D effect
+                perspective: 1200
             }}
         >
             <motion.div
@@ -136,7 +133,6 @@ const PhoneCard = ({ template, index }) => {
                     willChange: 'transform'
                 }}
             >
-                {/* Push the phone mockup out in 3D space on Z-axis for depth */}
                 <motion.div style={{ translateZ: isHovered ? 40 : 0, transition: '0.3s' }}>
                     <PhoneMockup img={template.img} activeHover={isHovered} />
                 </motion.div>
