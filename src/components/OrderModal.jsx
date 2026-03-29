@@ -19,6 +19,25 @@ const OrderModal = ({ isOpen, onClose }) => {
     const [status, setStatus]     = useState('idle'); // idle | loading | success | error
     const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({ name: '', email: '', notes: '' });
+    const [promoCode, setPromoCode]     = useState('');
+    const [promoApplied, setPromoApplied] = useState(false);
+    const [promoError, setPromoError]   = useState('');
+
+    const handleApplyPromo = () => {
+        if (!promoCode.trim()) return;
+        // Basic client-side feedback — Paddle validates the real code on checkout
+        setPromoApplied(true);
+        setPromoError('');
+    };
+
+    // Build Paddle URL with optional coupon code
+    const paddleUrl = (priceId) => {
+        let url = `https://buy.paddle.com/buy/${priceId}?email=${encodeURIComponent(formData.email)}&customer_name=${encodeURIComponent(formData.name)}`;
+        if (promoApplied && promoCode.trim()) {
+            url += `&coupon_code=${encodeURIComponent(promoCode.trim().toUpperCase())}`;
+        }
+        return url;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -173,7 +192,7 @@ const OrderModal = ({ isOpen, onClose }) => {
 
                                     {/* Full Service $99 */}
                                     <motion.a
-                                        href={`https://buy.paddle.com/buy/pri_01kmwcjh83w7665n0pbm4rjnpm?email=${encodeURIComponent(formData.email)}&customer_name=${encodeURIComponent(formData.name)}`}
+                                        href={paddleUrl('pri_01kmwcjh83w7665n0pbm4rjnpm')}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         whileHover={{ scale: 1.02 }}
@@ -190,11 +209,12 @@ const OrderModal = ({ isOpen, onClose }) => {
                                         <div style={{ position: 'absolute', top: '8px', right: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '100px', padding: '2px 9px', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '1px' }}>RECOMMENDED</div>
                                         <div style={{ fontWeight: 800, fontSize: '1rem' }}>Full Service — $99</div>
                                         <div style={{ fontSize: '0.75rem', opacity: 0.85, marginTop: '3px' }}>We design, customize &amp; deliver your invitation ✨</div>
+                                        {promoApplied && <div style={{ fontSize: '0.7rem', marginTop: '4px', background: 'rgba(255,255,255,0.15)', borderRadius: '4px', padding: '2px 8px', display: 'inline-block' }}>🏷 {promoCode.toUpperCase()} applied</div>}
                                     </motion.a>
 
                                     {/* DIY $49 */}
                                     <motion.a
-                                        href={`https://buy.paddle.com/buy/pri_01kmwchqpgs2gmanvbxvrgka70?email=${encodeURIComponent(formData.email)}&customer_name=${encodeURIComponent(formData.name)}`}
+                                        href={paddleUrl('pri_01kmwchqpgs2gmanvbxvrgka70')}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         whileHover={{ scale: 1.02 }}
@@ -210,6 +230,7 @@ const OrderModal = ({ isOpen, onClose }) => {
                                     >
                                         <div style={{ fontWeight: 700, fontSize: '1rem' }}>DIY Template — $49</div>
                                         <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '3px' }}>Access &amp; personalize the template yourself</div>
+                                        {promoApplied && <div style={{ fontSize: '0.7rem', marginTop: '4px', color: '#16a34a', fontWeight: 600 }}>🏷 {promoCode.toUpperCase()} applied</div>}
                                     </motion.a>
                                 </div>
 
@@ -289,6 +310,61 @@ const OrderModal = ({ isOpen, onClose }) => {
                                             rows={3}
                                             style={{ ...inputStyle, resize: 'vertical' }}
                                         />
+                                    </div>
+
+                                    {/* Promo Code Field */}
+                                    <div>
+                                        <label style={labelStyle}>Promo Code <span style={{ fontWeight: 400, textTransform: 'none', opacity: 0.6 }}>(optional)</span></label>
+                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                            <input
+                                                type="text"
+                                                value={promoCode}
+                                                onChange={(e) => { setPromoCode(e.target.value); setPromoApplied(false); setPromoError(''); }}
+                                                disabled={status === 'loading' || promoApplied}
+                                                placeholder="e.g. WEDDING20"
+                                                style={{
+                                                    ...inputStyle,
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '2px',
+                                                    flex: 1,
+                                                    border: promoApplied ? '1px solid #16a34a' : inputStyle.border,
+                                                    backgroundColor: promoApplied ? '#f0fdf4' : inputStyle.backgroundColor,
+                                                }}
+                                            />
+                                            <motion.button
+                                                type="button"
+                                                onClick={handleApplyPromo}
+                                                disabled={!promoCode.trim() || promoApplied || status === 'loading'}
+                                                whileHover={promoCode.trim() && !promoApplied ? { scale: 1.04 } : {}}
+                                                whileTap={promoCode.trim() && !promoApplied ? { scale: 0.96 } : {}}
+                                                style={{
+                                                    padding: '0 1.2rem',
+                                                    background: promoApplied ? '#16a34a' : '#1A2F33',
+                                                    color: '#fff',
+                                                    border: 'none',
+                                                    borderRadius: '8px',
+                                                    fontFamily: "'Montserrat', sans-serif",
+                                                    fontWeight: 700,
+                                                    fontSize: '0.78rem',
+                                                    cursor: promoCode.trim() && !promoApplied ? 'pointer' : 'default',
+                                                    letterSpacing: '1px',
+                                                    flexShrink: 0,
+                                                    whiteSpace: 'nowrap',
+                                                    opacity: !promoCode.trim() ? 0.4 : 1,
+                                                }}
+                                            >
+                                                {promoApplied ? '✓ Applied' : 'Apply'}
+                                            </motion.button>
+                                        </div>
+                                        {promoApplied && (
+                                            <motion.p
+                                                initial={{ opacity: 0, y: -4 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.75rem', color: '#16a34a', marginTop: '6px', fontWeight: 600 }}
+                                            >
+                                                🎉 Code <strong>{promoCode.toUpperCase()}</strong> will be applied at checkout!
+                                            </motion.p>
+                                        )}
                                     </div>
 
                                     {status === 'error' && (
