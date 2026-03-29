@@ -81,8 +81,8 @@ const HeroSection = () => {
     }, []);
 
     // High quality unspash images matching the demo templates aesthetic
-    const img1 = "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=400&h=800";
-    const img2 = "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=400&h=800";
+    const img1 = "https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&q=80&w=400&h=800";
+    const img2 = "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&q=80&w=400&h=800";
 
     return (
         <section style={{ 

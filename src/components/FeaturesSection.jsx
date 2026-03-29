@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 // Real photo URLs (verified Unsplash wedding images)
 const PHOTO_DELIVERY = 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=600&h=1100';
-const PHOTO_INTERACTIVE = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=600&h=1100';
+const PHOTO_INTERACTIVE = 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600&h=1100';
 
 // Animation 1: Instant Delivery — real photo with notification overlay
 const InstantDeliveryAnimation = () => {
